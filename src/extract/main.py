@@ -8,7 +8,6 @@ import load_to_gcs
 def main(request):
 
     try:  
-
         currency_keys_json = currency_mapping.currency_key_mapping()
         currency_keys_list = list(currency_keys_json.keys())
         daily_conversion_rates = conversion_data.daily_conversion_data(currency_keys_list)
