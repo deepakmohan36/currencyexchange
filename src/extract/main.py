@@ -3,7 +3,6 @@ import functions_framework
 import currency_mapping
 import conversion_data
 import json
-from datetime import datetime
 import load_to_gcs
 
 @functions_framework.http
@@ -13,24 +12,18 @@ def main(request):
 
         currency_keys_json = currency_mapping.currency_key_mapping()
 
+        #extract the list of currency keys
         currency_keys_list = list(currency_keys_json.keys())
 
+        #extract converstion rates by passing the list
         daily_conversion_rates = conversion_data.daily_conversion_data(currency_keys_list)
 
-        content = json.dumps(daily_conversion_rates)
-
-        bucket_name = 'project_currency_exchange'
-
-        current_date = datetime.now().strftime("%Y-%m-%d")
-
-        file_name = f'daily_conversion_rates_{current_date}.json'
-
-        load_to_gcs.upload_to_gcs(bucket_name,file_name, content)
-
+        #load the result to GCS
+        load_to_gcs.load_to_gcs(daily_conversion_rates)
 
 
         return {
-            "result": currency_keys_list
+            "result": daily_conversion_rates
         }, 200
     
     

@@ -16,6 +16,7 @@ resource "google_storage_bucket_object" "object" {
 
 resource "google_cloudfunctions2_function" "function" {
   name = "currency-exchange"
+  project = var.project
   location = var.region
   description = "data extraction scripts for project currency exchange"
 
@@ -60,6 +61,7 @@ resource "google_cloud_run_service_iam_member" "cloud_run_invoker" {
 
 resource "google_cloud_scheduler_job" "invoke_cloud_function" {
   name        = "invoke-gcf-function"
+  project     = var.project
   region      = var.region
   description = "Schedule the HTTPS trigger for cloud function currency-exchange"
   schedule    = "30 6 * * *" # every day at 6:30 AM IST
