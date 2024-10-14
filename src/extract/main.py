@@ -2,7 +2,6 @@ import requests
 import functions_framework
 import currency_mapping
 import conversion_data
-import json
 import load_to_gcs
 
 @functions_framework.http
