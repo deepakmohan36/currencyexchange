@@ -52,28 +52,28 @@ resource "google_cloudfunctions2_function_iam_member" "invoker" {
 }
 
 
-# resource "google_cloud_run_service_iam_member" "cloud_run_invoker" {
-#   service  = google_cloudfunctions2_function.function.service_config[0].service
-#   location = var.region
-#   role     = "roles/run.invoker"
-#   member   = "serviceAccount:${var.service_account_email}"
-# }
+resource "google_cloud_run_service_iam_member" "cloud_run_invoker" {
+  service  = google_cloudfunctions2_function.function.service_config[0].service
+  location = var.region
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${var.service_account_email}"
+}
 
 
-# resource "google_cloud_scheduler_job" "invoke_cloud_function" {
-#   name        = "invoke-gcf-function"
-#   project     = var.project
-#   region      = var.region
-#   description = "Schedule the HTTPS trigger for cloud function currency-exchange"
-#   schedule    = "30 6 * * *" # every day at 6:30 AM IST
-#   time_zone   = "Asia/Calcutta"
+resource "google_cloud_scheduler_job" "invoke_cloud_function" {
+  name        = "invoke-gcf-function"
+  project     = var.project
+  region      = var.region
+  description = "Schedule the HTTPS trigger for cloud function currency-exchange"
+  schedule    = "30 15 * * *" # every day at 6:30 AM IST
+  time_zone   = "Asia/Calcutta"
 
-#   http_target {
-#     uri         = google_cloudfunctions2_function.function.service_config[0].uri
-#     http_method = "POST"
-#     oidc_token {
-#       audience              = "${google_cloudfunctions2_function.function.service_config[0].uri}/"
-#       service_account_email = var.service_account_email
-#     }
-#   }
-# }
+  http_target {
+    uri         = google_cloudfunctions2_function.function.service_config[0].uri
+    http_method = "POST"
+    oidc_token {
+      audience              = "${google_cloudfunctions2_function.function.service_config[0].uri}/"
+      service_account_email = var.service_account_email
+    }
+  }
+}
