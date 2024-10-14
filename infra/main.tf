@@ -5,6 +5,7 @@ locals {
 resource "google_storage_bucket" "bucket" {
   name     = "project-currency-exchange" 
   location = var.region
+  project = var.project
 #   uniform_bucket_level_access = true
 }
 
