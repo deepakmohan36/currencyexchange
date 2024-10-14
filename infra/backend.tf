@@ -1,6 +1,7 @@
 terraform {
   backend "gcs" {
-    bucket = "project-currency-exchange"
-    prefix = "infra/state/project-currency-exchange"
+    bucket  = "project-currency-exchange-tf-state"
+    prefix  = "terraform/state"
+    project = var.project
   }
 }
