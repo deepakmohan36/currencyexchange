@@ -1,0 +1,5 @@
+google-cloud-storage
+functions-framework==3.*
+requests
+google-cloud-bigquery
+requests
