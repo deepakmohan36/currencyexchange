@@ -7,8 +7,8 @@ def load_to_gcs(daily_conversion_rates):
     content = json.dumps(daily_conversion_rates)
     current_date = datetime.now().strftime("%Y-%m-%d")
 
-    bucket_name = 'project_currency_exchange'
-    file_name = f'daily_conversion_rates_{current_date}.json'
+    bucket_name = 'project-currency-exchange'
+    file_name = f'daily_logs/daily_conversion_rates_{current_date}.json'
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)

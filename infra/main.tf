@@ -65,7 +65,7 @@ resource "google_cloud_scheduler_job" "invoke_cloud_function" {
   project     = var.project
   region      = var.region
   description = "Schedule the HTTPS trigger for cloud function currency-exchange"
-  schedule    = "30 15 * * *" # every day at 6:30 AM IST
+  schedule    = "00 16 * * *" # every day at 4:00 PM IST
   time_zone   = "Asia/Calcutta"
 
   http_target {
