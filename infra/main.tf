@@ -14,14 +14,6 @@ resource "google_storage_bucket_object" "object" {
   source = "${path.module}/project-currency-exchange.zip"
 }
 
-#bucket to manage the backend state of tf
-resource "google_storage_bucket" "tf_state_bucket" {
-  name     = "project-currency-exchange-tf-state"
-  location = var.region
-  force_destroy = false
-}
-
-
 resource "google_cloudfunctions2_function" "function" {
   name = "currency-exchange"
   project = var.project
