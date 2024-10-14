@@ -23,7 +23,7 @@ def main(request):
 
 
         return {
-            "result": daily_conversion_rates
+            "result": "success"
         }, 200
     
     

@@ -11,8 +11,8 @@ permissions:
   contents: read
 
 jobs: 
-  jamf_mobile:
-    name: 'jamf_mobile'
+  currency_exchange:
+    name: 'currency_exchange'
     runs-on: ubuntu-latest
     # environment: production
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -42,38 +42,38 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v2.1.1
       with:
-        project_id: datasheetstobigquery
+        project_id: portfolio-436507
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        terraform_version: 1.8.5
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
-      working-directory: terraform/euc/jamf_mobile/
+      working-directory: infra/
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt
-      working-directory: terraform/euc/jamf_mobile/
+      working-directory: infra/
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_DATA_ENGINEERING_TRIAL}}  #replace it with necessary SA for the cloud function.
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CURRENCY_EXCHANGE_KEY}}  #replace it with necessary SA for the cloud function.
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
-      working-directory: terraform/euc/jamf_mobile/
+      working-directory: infra/
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_DATA_ENGINEERING_TRIAL}}
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CURRENCY_EXCHANGE_KEY}}
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-      working-directory: terraform/euc/jamf_mobile/
+      working-directory: infra/
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_DATA_ENGINEERING_TRIAL}}
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CURRENCY_EXCHANGE_KEY}}
